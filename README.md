@@ -1,1 +1,0 @@
-# stratxgy.github.io
