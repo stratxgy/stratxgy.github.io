@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+        .executor-section {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        .executor-btn {
+            background-color: #fff;
+            color: #4CAF50;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .documentation {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Roblox</h1>
+    </header>
+
+<div class="executor-section">
+    <h2>Roblox Executors</h2>
+    <p>(click below)</p>
+    <a href="https://stratxgy.dev/roblox/executors" class="executor-btn" target="_blank">See Executors</a>
+</div>
+
+    <div class="documentation">
+        <h2>Roblox Script Creation</h2>
+        
+        <h3>Basic Script Structure</h3>
+        <pre><code>
+-- This is a comment
+local function myFunction()
+    print("Hello, Roblox!")
+end
+
+myFunction()
+        </code></pre>
+
+        <h3>Variables</h3>
+        <pre><code>
+local myNumber = 42
+local myString = "Hello, Roblox!"
+local myBoolean = true
+        </code></pre>
+
+        <h3>Conditional Statements</h3>
+        <pre><code>
+if myNumber > 50 then
+    print("The number is greater than 50")
+elseif myNumber < 50 then
+    print("The number is less than 50")
+else
+    print("The number is equal to 50")
+end
+        </code></pre>
+
+        <h3>Loops</h3>
+        <pre><code>
+-- For loop
+for i = 1, 5 do
+    print(i)
+end
+
+-- While loop
+local count = 0
+while count < 5 do
+    print(count)
+    count = count + 1
+end
+        </code></pre>
+
+        <h3>Functions</h3>
+        <pre><code>
+local function greet(name)
+    print("Hello, " .. name .. "!")
+end
+
+greet("Roblox")
+        </code></pre>
+
+        <h3>Tables</h3>
+        <pre><code>
+local myTable = {
+    "apple",
+    "banana",
+    "cherry"
+}
+
+print(myTable[1]) -- Outputs: apple
+
+local myDictionary = {
+    name = "John",
+    age = 30
+}
+
+print(myDictionary.name) -- Outputs: John
+        </code></pre>
+
+        <p>This is a basic introduction to Roblox scripting. For more detailed information, please refer to the official Roblox documentation.</p>
+    </div>
+</body>
+</html>
