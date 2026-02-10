@@ -3,152 +3,680 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>stratxgy.dev - scripting</title>
+    <meta name="description" content="stratxgy - Roblox Scripting Resources">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>stratxgy - scripting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            box-sizing: border-box;
         }
-        header {
-            background-color: #333;
-            color: #fff;
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-code: rgba(0, 0, 0, 0.4);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent-green: #22c55e;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .header {
             text-align: center;
-            padding: 1rem;
+            margin-bottom: 3rem;
         }
-        .executor-section {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-        }
-        .executor-btn {
-            background-color: #fff;
-            color: #4CAF50;
-            padding: 0.5rem 1rem;
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .title {
+            font-size: clamp(2rem, 8vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title svg {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-green);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.25s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(34, 197, 94, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .card-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-link:hover {
+            color: var(--accent-green);
+        }
+
+        .card-link svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: 0.813rem;
+        }
+
+        .ui-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .ui-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 0.875rem 1rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.25s ease;
+        }
+
+        .ui-card:hover {
+            border-color: rgba(168, 85, 247, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .ui-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .ui-name a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .ui-name a:hover {
+            color: var(--accent-purple);
+        }
+
+        .tag {
             display: inline-block;
+            font-size: 0.688rem;
+            font-weight: 500;
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .tag--best {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+        }
+
+        .tag--good {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+        }
+
+        .tag--mid {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .tag--old {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+        }
+
+        .docs-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .docs-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent-blue);
+        }
+
+        .docs-desc {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.813rem;
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .code-comment { color: #6b7280; }
+        .code-keyword { color: #c084fc; }
+        .code-string { color: #4ade80; }
+        .code-number { color: #fb923c; }
+        .code-func { color: #60a5fa; }
+        .code-bool { color: #f472b6; }
+
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .accordion-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.938rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s ease;
+        }
+
+        .accordion-header:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .accordion-header svg {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+            transition: transform 0.25s ease;
+        }
+
+        .accordion-item.active .accordion-header svg {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 0 1rem 1rem;
+        }
+
+        .accordion-item.active .accordion-content {
+            display: block;
+        }
+
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.875rem;
             margin-top: 1rem;
         }
-        .documentation, .links {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        .external-link:hover {
+            text-decoration: underline;
         }
-        h1, h2 {
-            color: #333;
+
+        .external-link svg {
+            width: 14px;
+            height: 14px;
         }
-        pre {
-            background-color: #f4f4f4;
-            padding: 1rem;
-            border-radius: 5px;
-            overflow-x: auto;
+
+        @media (max-width: 600px) {
+            .card-grid,
+            .ui-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            html {
+                scroll-behavior: auto;
+            }
+            canvas {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+    <canvas id="bg" aria-hidden="true"></canvas>
 
-    <div style="display: grid; place-items: center; height: 100px;">
+    <div class="container">
+        <header class="header">
+            <a href="../index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to home
+            </a>
+            <h1 class="title">Scripting</h1>
+            <p class="subtitle">Resources for Roblox script development</p>
+        </header>
 
-        <div class="links">
-            <h2>Roblox Script Creation</h2>
-            <h3>Here are some links you might need for creating your script</h3>
-            <h3>All of these are created and coded by me</h3>
-            <p><a href="https://github.com/Stratxgy/DH-Lua-Lock" target="_blank">Da Hood Lua Lock</a></p>
-            <p><a href="https://github.com/Stratxgy/Roblox-Chams-Highlight" target="_blank">Best chams :fire:</a></p>
-            <p><a href="https://github.com/Stratxgy/Lua-TargetHud" target="_blank">Open source working targethud</a></p>
-            <p><a href="https://github.com/Stratxgy/Lua-Speed" target="_blank">Lua speed script</a></p>
-            <p><a href="https://github.com/Stratxgy/Roblox-Lua-Triggerbot" target="_blank">Lua triggerbot</a></p>
+        <main>
+            <section class="section">
+                <h2 class="section-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                    My Scripts
+                </h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <a href="https://github.com/stratxgy/Da-Hood-Lua-Lock" class="card-link" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                            Da Hood Lua Lock
+                        </a>
+                        <p class="card-desc">Target lock script for Da Hood</p>
+                    </div>
+                    <div class="card">
+                        <a href="https://github.com/stratxgy/Chams-Highlight" class="card-link" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                            Chams / Highlight
+                        </a>
+                        <p class="card-desc">ESP highlight script</p>
+                    </div>
+                    <div class="card">
+                        <a href="https://github.com/stratxgy/Target-HUD" class="card-link" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                            Target HUD
+                        </a>
+                        <p class="card-desc">Target info display</p>
+                    </div>
+                    <div class="card">
+                        <a href="https://github.com/stratxgy/Speed-Script" class="card-link" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                            Speed Script
+                        </a>
+                        <p class="card-desc">Movement speed modifier</p>
+                    </div>
+                    <div class="card">
+                        <a href="https://github.com/stratxgy/Triggerbot" class="card-link" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                            Triggerbot
+                        </a>
+                        <p class="card-desc">Auto-fire on target</p>
+                    </div>
+                </div>
+            </section>
 
-            <h3>UI libraries</h3>
-            <a href="https://docs.sirius.menu/rayfield" target="_blank">The library used in the tutorial</a>
+            <section class="section">
+                <h2 class="section-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="3" y1="9" x2="21" y2="9"/>
+                        <line x1="9" y1="21" x2="9" y2="9"/>
+                    </svg>
+                    UI Libraries
+                </h2>
+                <div class="ui-grid">
+                    <div class="ui-card">
+                        <div class="ui-name"><a href="https://docs.sirius.menu/rayfield" target="_blank" rel="noopener noreferrer">Rayfield</a></div>
+                        <span class="tag tag--best">Best</span>
+                    </div>
+                    <div class="ui-card">
+                        <div class="ui-name"><a href="https://github.com/violin-suzutsuki/LinoriaLib" target="_blank" rel="noopener noreferrer">Linoria Lib</a></div>
+                        <span class="tag tag--good">Good</span>
+                    </div>
+                    <div class="ui-card">
+                        <div class="ui-name"><a href="https://github.com/wally-rblx/LinoriaLib" target="_blank" rel="noopener noreferrer">Pepsi UI</a></div>
+                        <span class="tag tag--mid">Mid</span>
+                    </div>
+                    <div class="ui-card">
+                        <div class="ui-name"><a href="https://github.com/Jereme1234/Venyx-UI-Library" target="_blank" rel="noopener noreferrer">Venyx UI</a></div>
+                        <span class="tag tag--old">Unsupported</span>
+                    </div>
+                </div>
+            </section>
 
-            <h3>You will have to use these without the video tutorial, but they have documentation</h3>
-            <p><a href="https://github.com/Stratxgy/Linora-Lib" target="_blank">Linora Lib (best ui)</a></p>
-            <p><a href="https://github.com/Stratxgy/PepsiUI" target="_blank">Pepsi UI (mid)</a></p>
-            <p><a href="https://github.com/Stratxgy/VenyxUI" target="_blank">Venyx UI (unsupported, but if you try hard enough its viable)</a></p>
-        </div>
+            <section class="section">
+                <h2 class="section-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    Lua Basics
+                </h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false">
+                            Script Structure
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <pre><code><span class="code-comment">-- This is a comment</span>
+<span class="code-func">print</span>(<span class="code-string">"Hello, World!"</span>)
 
+<span class="code-comment">--[[
+  Multi-line
+  comment block
+]]</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false">
+                            Variables
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <pre><code><span class="code-keyword">local</span> number = <span class="code-number">42</span>
+<span class="code-keyword">local</span> text = <span class="code-string">"Hello"</span>
+<span class="code-keyword">local</span> flag = <span class="code-bool">true</span>
+<span class="code-keyword">local</span> empty = <span class="code-bool">nil</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false">
+                            Conditionals
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <pre><code><span class="code-keyword">local</span> x = <span class="code-number">10</span>
 
-        <div class="documentation">
+<span class="code-keyword">if</span> x > <span class="code-number">10</span> <span class="code-keyword">then</span>
+    <span class="code-func">print</span>(<span class="code-string">"Greater"</span>)
+<span class="code-keyword">elseif</span> x == <span class="code-number">10</span> <span class="code-keyword">then</span>
+    <span class="code-func">print</span>(<span class="code-string">"Equal"</span>)
+<span class="code-keyword">else</span>
+    <span class="code-func">print</span>(<span class="code-string">"Less"</span>)
+<span class="code-keyword">end</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false">
+                            Loops
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <pre><code><span class="code-comment">-- For loop</span>
+<span class="code-keyword">for</span> i = <span class="code-number">1</span>, <span class="code-number">5</span> <span class="code-keyword">do</span>
+    <span class="code-func">print</span>(i)
+<span class="code-keyword">end</span>
 
-        <h3>Basic Script Structure</h3>
-        <pre><code>
--- This is a comment
-local function myFunction()
-    print("Hello, Roblox!")
-end
+<span class="code-comment">-- While loop</span>
+<span class="code-keyword">local</span> count = <span class="code-number">0</span>
+<span class="code-keyword">while</span> count < <span class="code-number">3</span> <span class="code-keyword">do</span>
+    count = count + <span class="code-number">1</span>
+<span class="code-keyword">end</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false">
+                            Functions
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <pre><code><span class="code-keyword">local function</span> <span class="code-func">greet</span>(name)
+    <span class="code-keyword">return</span> <span class="code-string">"Hello, "</span> .. name
+<span class="code-keyword">end</span>
 
-myFunction()
-        </code></pre>
+<span class="code-func">print</span>(<span class="code-func">greet</span>(<span class="code-string">"World"</span>))</code></pre>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false">
+                            Tables
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <pre><code><span class="code-comment">-- Array-style</span>
+<span class="code-keyword">local</span> fruits = {<span class="code-string">"apple"</span>, <span class="code-string">"banana"</span>, <span class="code-string">"orange"</span>}
+<span class="code-func">print</span>(fruits[<span class="code-number">1</span>]) <span class="code-comment">-- apple</span>
 
-        <h3>Variables</h3>
-        <pre><code>
-local myNumber = 42
-local myString = "Hello, Roblox!"
-local myBoolean = true
-        </code></pre>
-
-        <h3>Conditional Statements</h3>
-        <pre><code>
-if myNumber > 50 then
-    print("The number is greater than 50")
-elseif myNumber < 50 then
-    print("The number is less than 50")
-else
-    print("The number is equal to 50")
-end
-        </code></pre>
-
-        <h3>Loops</h3>
-        <pre><code>
--- For loop
-for i = 1, 5 do
-    print(i)
-end
-
--- While loop
-local count = 0
-while count < 5 do
-    print(count)
-    count = count + 1
-end
-        </code></pre>
-
-        <h3>Functions</h3>
-        <pre><code>
-local function greet(name)
-    print("Hello, " .. name .. "!")
-end
-
-greet("Roblox")
-        </code></pre>
-
-        <h3>Tables</h3>
-        <pre><code>
-local myTable = {
-    "apple",
-    "banana",
-    "cherry"
+<span class="code-comment">-- Dictionary-style</span>
+<span class="code-keyword">local</span> player = {
+    name = <span class="code-string">"stratxgy"</span>,
+    level = <span class="code-number">50</span>,
+    active = <span class="code-bool">true</span>
 }
-
-print(myTable[1]) -- Outputs: apple
-
-local myDictionary = {
-    name = "John",
-    age = 30
-}
-
-print(myDictionary.name) -- Outputs: John
-        </code></pre>
-
-        <p>This is a basic introduction to Roblox scripting. For more detailed information, please refer to the official Roblox documentation.</p>
+<span class="code-func">print</span>(player.name)</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://create.roblox.com/docs/luau" class="external-link" target="_blank" rel="noopener noreferrer">
+                    Official Roblox Luau Docs
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/>
+                        <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                </a>
+            </section>
+        </main>
     </div>
+
+    <script>
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+
+                // Close all
+                document.querySelectorAll('.accordion-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+                });
+
+                // Open clicked if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                    button.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        // Canvas background
+        const canvas = document.getElementById('bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+        let isVisible = true;
+
+        function resize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+        }
+
+        function createParticles() {
+            const count = Math.min(30, Math.floor(window.innerWidth / 40));
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: Math.random() * 0.3 + 0.1,
+                    alpha: Math.random() * 0.4 + 0.1
+                });
+            }
+        }
+
+        function animate() {
+            if (!isVisible) return;
+
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+            for (const p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.y > window.innerHeight + 10) {
+                    p.y = -10;
+                    p.x = Math.random() * window.innerWidth;
+                }
+                if (p.x < -10) p.x = window.innerWidth + 10;
+                if (p.x > window.innerWidth + 10) p.x = -10;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+                ctx.fill();
+            }
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            isVisible = !document.hidden;
+            if (isVisible) {
+                animationId = requestAnimationFrame(animate);
+            } else {
+                cancelAnimationFrame(animationId);
+            }
+        });
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                resize();
+                createParticles();
+            }, 150);
+        });
+
+        resize();
+        createParticles();
+        animate();
+    </script>
 </body>
 </html>
